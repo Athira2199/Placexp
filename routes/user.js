@@ -5,7 +5,7 @@ const router = express.Router();
 
 // user account creation
 router.post('/',async(req,res)=>{
-    if(req.body.username == '' || req.body.password == ''){
+    if(!req.body.username || !req.body.password ||req.body.username == '' || req.body.password == ''){
         res.json({
             code : 422,
             status  : 'All parameters are required'
@@ -53,7 +53,7 @@ router.post('/',async(req,res)=>{
 
 // user account login
 router.post('/auth',async(req,res)=>{
-    if(req.body.username == '' || req.body.password == ''){
+    if(!req.body.username || !req.body.password || req.body.username == '' || req.body.password == ''){
         res.json({
             code : 422,
             status  : 'All parameters are required'
