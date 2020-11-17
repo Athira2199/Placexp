@@ -52,4 +52,44 @@ router.post('/',(req,res)=>{
 })
 
 // user account login
+router.post('/auth',(req,res)=>{
+    if(req.body.username == '' || req.body.password == ''){
+        res.json({
+            code : 422,
+            status  : 'All parameters are required'
+        })
+    }
+    else{
+        const user = await User.findOne({username:req.body.username})
+        if(user){
+            bycrypt.compare(password,user.password,function(err,isMatch){
+                if(err) {
+                    res.json({
+                        statusCode : 500,
+                        status    : 'Internal Server Error'
+                    })
+                }
+                if(isMatch){
+                    res.json({
+                        statusCode : 200,
+                        status : 'success',
+                        userId : user._id
+                    })
+                }
+                else{
+                    res.json({
+                        statusCode : 401,
+                        status    : 'Invalid Password'
+                    })
+                }
+            });
+        }
+        else{
+            res.json({
+                code : 404,
+                status  : 'user does not exist'
+            })
+        }
+    }
+})
 module.exports = router;
