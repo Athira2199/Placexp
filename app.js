@@ -12,6 +12,7 @@ const PORT =  3000
 app.use(express.urlencoded({
     extended: true
 }))
+app.use(cors())
 
 app.use('/app/user',require('./routes/user'))
 app.use('/app/sites',require('./routes/notes'))
