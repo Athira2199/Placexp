@@ -1,8 +1,9 @@
 const express = require('express')
-const bycrypt=require('bcryptjs');
+const bycrypt=require('bcryptjs')
 const User = require('../models/user')
 const router = express.Router();
 
+// user account creation
 router.post('/',(req,res)=>{
     if(req.body.username == '' || req.body.password == ''){
         res.json({
@@ -50,5 +51,5 @@ router.post('/',(req,res)=>{
     }
 })
 
-
+// user account login
 module.exports = router;
