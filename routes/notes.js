@@ -1,6 +1,6 @@
 const express = require('express')
 const bycrypt=require('bcryptjs')
-const Note = require('../models/notes');
+const Note = require('../models/note');
 const User = require('../models/user');
 const router = express.Router();
 
@@ -28,7 +28,7 @@ router.get('/list',async(req,res)=>{
 })
 
 // save a new note
-router.post('/',(req,res)=>{
+router.post('/',async(req,res)=>{
     if(req.query.user == '' || req.body.note == ''){
         res.json({
             code : 422,

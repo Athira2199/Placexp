@@ -1,10 +1,10 @@
 const express = require('express')
-const bycrypt=require('bcryptjs')
+const bcrypt=require('bcryptjs')
 const User = require('../models/user')
 const router = express.Router();
 
 // user account creation
-router.post('/',(req,res)=>{
+router.post('/',async(req,res)=>{
     if(req.body.username == '' || req.body.password == ''){
         res.json({
             code : 422,
@@ -21,7 +21,7 @@ router.post('/',(req,res)=>{
         }
         else{
             bcrypt.genSalt(10,(err,salt)=>{
-                bcrypt.hash(newUser.password,salt,async(err,hash)=>{
+                bcrypt.hash(req.body.password,salt,async(err,hash)=>{
                     if(err){
                         res.json({
                             statusCode : 500,
@@ -52,7 +52,7 @@ router.post('/',(req,res)=>{
 })
 
 // user account login
-router.post('/auth',(req,res)=>{
+router.post('/auth',async(req,res)=>{
     if(req.body.username == '' || req.body.password == ''){
         res.json({
             code : 422,
@@ -62,7 +62,7 @@ router.post('/auth',(req,res)=>{
     else{
         const user = await User.findOne({username:req.body.username})
         if(user){
-            bycrypt.compare(password,user.password,function(err,isMatch){
+            bcrypt.compare(req.body.password,user.password,function(err,isMatch){
                 if(err) {
                     res.json({
                         statusCode : 500,
